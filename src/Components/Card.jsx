@@ -78,8 +78,8 @@ function Card() {
     } else {
       toDoArray = duptodo;
     }
-    console.log(toDoArray);
-    // setValue(toDoArray);
+  console.log(toDoArray);
+  // setValue(toDoArray);
     setToDo(toDoArray);
   };
   return (

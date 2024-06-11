@@ -52,9 +52,10 @@ function Input({ toDo, setToDo, name, setName, desc, setDesc, button, setButton,
                   <Form.Label className="d-flex justify-content-start align-items-center">
                     Status: &nbsp; <b>{e.status}</b>
                     <Form.Select
-                      style={{ width: "60%" }}
+                      //style={{ width: "60%" }}
                       aria-label="Default select example"
                       defaultValue={e.status} onChange={(v) => { handleStatusChange(v.target.value,e.id) }}
+                      //onChange={(e) => handleChange(e.target.value)}
                     >
                       <option value="1">Completed</option>
                       <option value="2">Not Completed</option>
