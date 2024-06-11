@@ -32,9 +32,7 @@ function Card() {
 
   let handleAddToDo = () => {
     if (buttonState) {
-      let id = initialValue.length
-        ? initialValue[initialValue.length - 1].id + 1
-        : 1;
+      let id = initialValue.length ? initialValue[initialValue.length - 1].id + 1 : 1;
       let status = 2;
       let dupTodo = [...initialValue];
       dupTodo.push({
@@ -69,19 +67,19 @@ function Card() {
     setName("");
     setDesc("");
   };
+
   let handleChange = (statusId) => {
     let duptodo = [...initialValue];
-    console.log(statusId);
+    const numericStatusId = Number(statusId); // Convert statusId to number here
     let toDoArray;
-    if (statusId != 3) {
-      toDoArray = duptodo.filter((e) => e.status == statusId);
+    if (numericStatusId !== 3) {
+      toDoArray = duptodo.filter((e) => e.status === numericStatusId);
     } else {
       toDoArray = duptodo;
     }
-  console.log(toDoArray);
-  // setValue(toDoArray);
     setToDo(toDoArray);
   };
+
   return (
     <>
       <h1 className="d-flex justify-content-center" style={{ color: "green" }}>
@@ -106,9 +104,7 @@ function Card() {
           <Button
             variant="success"
             className="w-25"
-            onClick={() => {
-              handleAddToDo();
-            }}
+            onClick={handleAddToDo}
           >
             {buttonState ? "Add ToDo" : "Update ToDo"}
           </Button>

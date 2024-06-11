@@ -1,28 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
-function Input({ toDo, setToDo, name, setName, desc, setDesc, button, setButton, toDoid,getId }) {
+function Input({ toDo, setToDo, name, setName, desc, setDesc, button, setButton, toDoid, getId }) {
   let handleDelete = (id) => {
     let i = findIndex(id);
     let dupTodo = [...toDo];
     dupTodo.splice(i, 1);
     setToDo(dupTodo);
   };
+
   let handleEdit = (id) => {
     getId(id);
-    setButton(false)
+    setButton(false);
     let i = findIndex(id);
     setName(toDo[i].name);
     setDesc(toDo[i].desc);
   };
+
   let handleStatusChange = (statusId, toDoId) => {
     let i = findIndex(toDoId);
     let dupTodo = [...toDo];
-    dupTodo[i].status = statusId;
+    dupTodo[i].status = Number(statusId);
     setToDo(dupTodo);
-  }
+  };
+
   let findIndex = (id) => {
     let index;
     for (let i = 0; i < toDo.length; i++) {
@@ -33,59 +36,58 @@ function Input({ toDo, setToDo, name, setName, desc, setDesc, button, setButton,
     }
     return index;
   };
+
+  const getStatusLabel = (status) => {
+    return status === 1 ? "Completed" : "Not Completed";
+  };
+
   return (
     <>
-      {toDo.map((e, i) => {
-        return (
-          <div key={i}>
-            <Card style={{ width: "20rem", backgroundColor: "#ccf5d3" }}>
-              <Card.Body>
-                <Card.Text>
-                  <div>
-                    <p>
-                      Name: <span>{e.name}</span>
-                    </p>
-                    <p>
-                      Description: <span>{e.desc}</span>
-                    </p>
-                  </div>
-                  <Form.Label className="d-flex justify-content-start align-items-center">
-                    Status: &nbsp; <b>{e.status}</b>
-                    <Form.Select
-                      //style={{ width: "60%" }}
-                      aria-label="Default select example"
-                      defaultValue={e.status} onChange={(v) => { handleStatusChange(v.target.value,e.id) }}
-                      //onChange={(e) => handleChange(e.target.value)}
-                    >
-                      <option value="1">Completed</option>
-                      <option value="2">Not Completed</option>
-                    </Form.Select>
-                  </Form.Label>
-                </Card.Text>
-                <div className="d-flex justify-content-end">
-                  <Button
-                    variant="success"
-                    onClick={() => {
-                      handleEdit(e.id);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  &nbsp;
-                  <Button
-                    variant="danger"
-                    onClick={() => {
-                      handleDelete(e.id);
-                    }}
-                  >
-                    Delete
-                  </Button>
+      {toDo.map((e, i) => (
+        <div key={i}>
+          <Card style={{ width: "20rem", backgroundColor: "#ccf5d3" }}>
+            <Card.Body>
+              <Card.Text>
+                <div>
+                  <p>
+                    Name: <span>{e.name}</span>
+                  </p>
+                  <p>
+                    Description: <span>{e.desc}</span>
+                  </p>
                 </div>
-              </Card.Body>
-            </Card>
-          </div>
-        );
-      })}
+                <Form.Label className="d-flex justify-content-start align-items-center">
+                  Status: &nbsp; <b>{getStatusLabel(e.status)}</b>
+                  <Form.Select
+                    style={{ width: "60%" }}
+                    aria-label="Default select example"
+                    defaultValue={e.status}
+                    onChange={(v) => handleStatusChange(v.target.value, e.id)}
+                  >
+                    <option value="1">Completed</option>
+                    <option value="2">Not Completed</option>
+                  </Form.Select>
+                </Form.Label>
+              </Card.Text>
+              <div className="d-flex justify-content-end">
+                <Button
+                  variant="success"
+                  onClick={() => handleEdit(e.id)}
+                >
+                  Edit
+                </Button>
+                &nbsp;
+                <Button
+                  variant="danger"
+                  onClick={() => handleDelete(e.id)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        </div>
+      ))}
     </>
   );
 }
